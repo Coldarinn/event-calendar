@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppRouter } from './components/AppRouter';
+import { Header } from './components/Header';
+import { Loader } from './components/Loader';
+import { useAppSelector } from './hooks/redux';
+import { authSlice } from './store/reducers/auth';
+import './styles.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: FC = () => {
+	const { changeAuth, changeUsername, changeIsLoading } = authSlice.actions;
+	const { isLoading } = useAppSelector((state) => state.authReducer);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const username = localStorage.getItem("username");
+		if (username) {
+			dispatch(changeIsLoading(true));
+			dispatch(changeAuth(true));
+			dispatch(changeUsername(username));
+			dispatch(changeIsLoading(false));
+		};
+	}, []);
+
+	return (
+		<div className="App">
+			{isLoading ? <Loader /> : (
+				<>
+					<Header />
+					<AppRouter />
+				</>
+			)}
+
+		</div>
+	);
+};
 
 export default App;
