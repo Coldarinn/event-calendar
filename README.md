@@ -1,3 +1,5 @@
+## user: login - user 1, password - 111; user 2, password - 222; login - user 3, passwod - 333
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
